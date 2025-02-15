@@ -10,5 +10,6 @@ public record ExerciseSetDto(
         BigDecimal weight,
         @NotNull(message = "mandatory field")
         BigDecimal reps,
+        @NotNull(message = "mandatory field")
         Difficulty difficulty) {
 }
