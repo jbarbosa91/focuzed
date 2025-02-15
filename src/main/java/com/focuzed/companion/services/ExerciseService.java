@@ -18,12 +18,12 @@ import java.util.UUID;
 public class ExerciseService {
 
     private final ExerciseRepository repository;
-    private final ExerciseMapper mapper;
+    private final ExerciseMapper exerciseMapper;
 
     public UUID save(ExerciseDto exerciseDto) {
         log.info("Saving exercise: {}", exerciseDto);
 
-        Exercise exercise = mapper.toEntity(exerciseDto);
+        Exercise exercise = exerciseMapper.toEntity(exerciseDto);
 
         repository.save(exercise);
         return exercise.getId();
@@ -35,7 +35,7 @@ public class ExerciseService {
         var exercise = repository.findById(exerciseId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Exercise not found"));
 
-        return mapper.toDto(exercise);
+        return exerciseMapper.toDto(exercise);
     }
 
     public void delete(String id) {
@@ -60,7 +60,7 @@ public class ExerciseService {
 
         repository.save(exercise);
 
-        return mapper.toDto(exercise);
+        return exerciseMapper.toDto(exercise);
     }
 
 }
