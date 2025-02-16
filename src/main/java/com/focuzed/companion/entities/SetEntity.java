@@ -12,13 +12,19 @@ import java.util.UUID;
 
 @Entity
 @Data
-@Table(name = "set")
+@Table(name = "sets")
 @EntityListeners(AuditingEntityListener.class)
-public class ExerciseSet {
+public class SetEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(unique = true, nullable = false)
     private UUID id;
+
+    // TODO: Substituir UUID por entidade ExerciseSession
+    @Column(name = "exercise_session_id")
+    private UUID exerciseSession;
+
+    private Integer setNumber;
 
     @Column(precision = 5, scale = 2, nullable = false)
     private BigDecimal weight;

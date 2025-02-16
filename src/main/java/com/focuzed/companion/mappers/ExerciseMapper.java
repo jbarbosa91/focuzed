@@ -1,13 +1,13 @@
 package com.focuzed.companion.mappers;
 
 import com.focuzed.companion.dto.ExerciseDto;
-import com.focuzed.companion.entities.Exercise;
+import com.focuzed.companion.entities.ExerciseEntity;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface ExerciseMapper {
 
-    ExerciseDto toDto(Exercise exercise);
+    ExerciseDto toDto(ExerciseEntity exerciseEntity);
 
-    Exercise toEntity(ExerciseDto exerciseDto);
+    ExerciseEntity toEntity(ExerciseDto exerciseDto);
 }

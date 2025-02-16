@@ -1,7 +1,7 @@
 package com.focuzed.companion.services;
 
 import com.focuzed.companion.dto.ExerciseDto;
-import com.focuzed.companion.entities.Exercise;
+import com.focuzed.companion.entities.ExerciseEntity;
 import com.focuzed.companion.mappers.ExerciseMapper;
 import com.focuzed.companion.repositories.ExerciseRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +23,10 @@ public class ExerciseService {
     public UUID save(ExerciseDto exerciseDto) {
         log.info("Saving exercise: {}", exerciseDto);
 
-        Exercise exercise = exerciseMapper.toEntity(exerciseDto);
+        ExerciseEntity exerciseEntity = exerciseMapper.toEntity(exerciseDto);
 
-        repository.save(exercise);
-        return exercise.getId();
+        repository.save(exerciseEntity);
+        return exerciseEntity.getId();
     }
 
     public ExerciseDto getExerciseById(String id) {

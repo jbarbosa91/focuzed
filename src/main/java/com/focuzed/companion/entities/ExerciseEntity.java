@@ -1,3 +1,4 @@
+
 package com.focuzed.companion.entities;
 
 import jakarta.persistence.*;
@@ -10,25 +11,23 @@ import java.util.UUID;
 
 @Entity
 @Data
-@Table(name = "users")
+@Table(name = "Exercise")
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class ExerciseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(unique = true, nullable = false)
     private UUID id;
 
     @Column
-    private String email;
+    private String title;
 
     @Column
-    private String name;
+    private String description;
 
     @Column
-    private String password;
-
-    @Column
-    private String role;
+    private String url;
 
     @CreatedDate
     private LocalDateTime createdAt;

@@ -1,28 +1,46 @@
-create table set (
-                     id uuid not null primary key,
-                     weight numeric(3,2) not null,
-                     reps numeric (3) not null,
-                     difficulty varchar(50) not null,
-                     createdAt timestamp,
-                     updatedAt timestamp,
-                     constraint chk_difficulty check (difficulty in ('EASY', 'MEDIUM', 'HARD') )
-);
-
-create table users (
-                     id uuid not null primary key,
-                     email varchar(50) not null,
-                     name varchar(100) not null,
-                     password varchar(255) not null,
-                     role varchar(50) not null,
-                     created_at timestamp
+create table sets (
+                      id uuid not null primary key,
+                      exercise_session_id uuid not null references exercise_session(id),
+                      set_number integer,
+                      weight numeric(3,2) not null,
+                      reps numeric (3) not null,
+                      difficulty varchar(50) not null,
+                      createdAt timestamp,
+                      updatedAt timestamp,
+                      constraint chk_difficulty check (difficulty in ('EASY', 'MEDIUM', 'HARD') )
 );
 
 create table exercise_session (
-                     id uuid not null primary key,
-                     set_id uuid not null,
-                     exercise_id uuid not null,
-                     session_id uuid not null,
-                     completed boolean
+                                  id uuid not null primary key,
+                                  exercise_id uuid not null references exercise(id),
+                                  session_id uuid not null references sessions(id),
+                                  completed boolean
+);
+
+create table sessions (
+                          id uuid not null primary key,
+                          user_id uuid not null references users(id),
+                          reference_session_id uuid references sessions(id),
+                          is_plan boolean,
+                          date timestamp,
+                          completed boolean
+);
+
+create table exercise (
+                          id uuid not null primary key,
+                          title varchar(100) not null,
+                          description varchar(255) not null,
+                          url varchar(255) not null
+);
+
+create table users (
+                       id uuid not null primary key,
+                       training_session_id uuid references sessions(id),
+                       email varchar(50) not null,
+                       name varchar(100) not null,
+                       password varchar(255) not null,
+                       role varchar(50) not null,
+                       created_at timestamp
 );
 
 

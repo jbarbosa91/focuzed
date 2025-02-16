@@ -1,7 +1,7 @@
 package com.focuzed.companion.services;
 
 import com.focuzed.companion.dto.UserDto;
-import com.focuzed.companion.entities.User;
+import com.focuzed.companion.entities.UserEntity;
 import com.focuzed.companion.mappers.UsersMapper;
 import com.focuzed.companion.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +22,10 @@ public class UserService {
     public UUID save(UserDto usersDto) {
         log.info("Saving user: {}", usersDto);
 
-        User user = usersMapper.toEntity(usersDto);
+        UserEntity userEntity = usersMapper.toEntity(usersDto);
 
-        repository.save(user);
-        return user.getId();
+        repository.save(userEntity);
+        return userEntity.getId();
     }
 
     public UserDto getUserById(String id) {

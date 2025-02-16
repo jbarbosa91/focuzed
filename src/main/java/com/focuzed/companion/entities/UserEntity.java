@@ -1,4 +1,3 @@
-
 package com.focuzed.companion.entities;
 
 import jakarta.persistence.*;
@@ -11,24 +10,31 @@ import java.util.UUID;
 
 @Entity
 @Data
-@Table(name = "Exercise")
+@Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
-public class Exercise {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(unique = true, nullable = false)
     private UUID id;
 
     @Column
-    private String title;
+    private String email;
 
     @Column
-    private String description;
+    private String name;
 
     @Column
-    private String url;
+    private String password;
+
+    @Column
+    private String role;
 
     @CreatedDate
     private LocalDateTime createdAt;
+
+    // TODO: Quando é alterado o valor deste trainingPlan, a session nao tem um previous
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "training_plan_id")
+    private SessionEntity trainingPlan;
 }
