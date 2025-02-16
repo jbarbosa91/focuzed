@@ -20,9 +20,9 @@ public class SetEntity {
     @Column(unique = true, nullable = false)
     private UUID id;
 
-    // TODO: Substituir UUID por entidade ExerciseSession
-    @Column(name = "exercise_session_id")
-    private UUID exerciseSession;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "exercise_session_id")
+    private ExerciseSessionEntity exerciseSession;
 
     private Integer setNumber;
 
@@ -32,7 +32,7 @@ public class SetEntity {
     @Column(precision = 3, nullable = false)
     private BigDecimal reps;
 
-    @Column(precision = 50, nullable = false)
+    @Column(length = 50, nullable = false)
     @Enumerated(EnumType.STRING)
     private Difficulty difficulty;
 

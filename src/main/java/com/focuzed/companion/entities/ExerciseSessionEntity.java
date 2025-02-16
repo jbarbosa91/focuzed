@@ -19,8 +19,9 @@ public class ExerciseSessionEntity {
     @JoinColumn(name = "exercise_id")
     private ExerciseEntity exerciseEntity;
 
-    // TODO: Substituir UUID por entidade Session
-    private UUID sessionId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "session_id")
+    private SessionEntity sessionId;
 
     private Boolean completed;
 }

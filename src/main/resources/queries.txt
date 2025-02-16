@@ -5,8 +5,8 @@ create table sets (
                       weight numeric(3,2) not null,
                       reps numeric (3) not null,
                       difficulty varchar(50) not null,
-                      createdAt timestamp,
-                      updatedAt timestamp,
+                      created_at timestamp,
+                      updated_at timestamp,
                       constraint chk_difficulty check (difficulty in ('EASY', 'MEDIUM', 'HARD') )
 );
 
