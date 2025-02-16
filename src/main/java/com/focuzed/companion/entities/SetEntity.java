@@ -1,7 +1,10 @@
 package com.focuzed.companion.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -14,6 +17,9 @@ import java.util.UUID;
 @Data
 @Table(name = "sets")
 @EntityListeners(AuditingEntityListener.class)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SetEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -26,13 +32,13 @@ public class SetEntity {
 
     private Integer setNumber;
 
-    @Column(precision = 5, scale = 2, nullable = false)
+    @Column(precision = 5, scale = 2)
     private BigDecimal weight;
 
     @Column(precision = 3, nullable = false)
     private BigDecimal reps;
 
-    @Column(length = 50, nullable = false)
+    @Column(length = 50)
     @Enumerated(EnumType.STRING)
     private Difficulty difficulty;
 

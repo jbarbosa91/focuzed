@@ -5,11 +5,11 @@ import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 
-public record ExerciseSetDto(
+public record SetDto(
         @NotNull(message = "mandatory field")
+        Integer setNumber,
         BigDecimal weight,
         @NotNull(message = "mandatory field")
         BigDecimal reps,
-        @NotNull(message = "mandatory field")
         Difficulty difficulty) {
 }

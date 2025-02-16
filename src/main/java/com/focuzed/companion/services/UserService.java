@@ -2,7 +2,6 @@ package com.focuzed.companion.services;
 
 import com.focuzed.companion.dto.UserDto;
 import com.focuzed.companion.entities.UserEntity;
-import com.focuzed.companion.mappers.UsersMapper;
 import com.focuzed.companion.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,28 +16,20 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository repository;
-    private final UsersMapper usersMapper;
 
-    public UUID save(UserDto usersDto) {
-        log.info("Saving user: {}", usersDto);
-
-        UserEntity userEntity = usersMapper.toEntity(usersDto);
-
+    public UUID save(UserEntity userEntity) {
         repository.save(userEntity);
         return userEntity.getId();
     }
 
-    public UserDto getUserById(String id) {
+    public UserEntity getUserById(String id) {
         var userId = UUID.fromString(id);
 
-        var user = repository.findById(userId)
+        return repository.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-
-        return usersMapper.toDto(user);
     }
 
     public void delete(String id) {
-        log.info("Deleting user with ID: {} ", id);
         var userId = UUID.fromString(id);
 
         var user = repository.findById(userId)
@@ -47,7 +38,7 @@ public class UserService {
         repository.delete(user);
     }
 
-    public UserDto update(String id, UserDto dto) {
+    public UserEntity update(String id, UserDto dto) {
         var userId = UUID.fromString(id);
 
         var user = repository.findById(userId)
@@ -60,6 +51,6 @@ public class UserService {
 
         repository.save(user);
 
-        return usersMapper.toDto(user);
+        return user;
     }
 }

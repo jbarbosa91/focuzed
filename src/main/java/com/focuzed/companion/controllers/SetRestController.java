@@ -1,6 +1,6 @@
 package com.focuzed.companion.controllers;
 
-import com.focuzed.companion.dto.ExerciseSetDto;
+import com.focuzed.companion.dto.SetDto;
 import com.focuzed.companion.services.SetService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,21 +14,21 @@ import java.net.URI;
 @RequestMapping("/exercise-set")
 @RequiredArgsConstructor
 @Slf4j
-public class ExerciseSetRestController implements GenericController {
+public class SetRestController implements GenericController {
 
 
     private final SetService service;
 
     @PostMapping
-    public ResponseEntity<Void> saveSet(@RequestBody @Valid ExerciseSetDto exerciseSetDto) {
-        log.info("Saving exercise set: {}", exerciseSetDto);
-        var exerciseId = service.save(exerciseSetDto);
+    public ResponseEntity<Void> saveSet(@RequestBody @Valid SetDto setDto) {
+        log.info("Saving exercise set: {}", setDto);
+        var exerciseId = service.save(setDto);
         URI location = generateHeaderLocation(exerciseId);
         return ResponseEntity.created(location).build();
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ExerciseSetDto> getById(@PathVariable("id") String id) {
+    public ResponseEntity<SetDto> getById(@PathVariable("id") String id) {
         var exerciseSetDto = service.getExerciseSetById(id);
         return ResponseEntity.ok(exerciseSetDto);
     }
@@ -40,7 +40,7 @@ public class ExerciseSetRestController implements GenericController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ExerciseSetDto> update(@PathVariable String id, @RequestBody @Valid ExerciseSetDto dto) {
+    public ResponseEntity<SetDto> update(@PathVariable String id, @RequestBody @Valid SetDto dto) {
         var updatedExercise = service.update(id, dto);
         return ResponseEntity.ok(updatedExercise);
     }

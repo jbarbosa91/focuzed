@@ -1,9 +1,9 @@
 package com.focuzed.companion.services;
 
-import com.focuzed.companion.dto.ExerciseSetDto;
+import com.focuzed.companion.dto.SetDto;
 import com.focuzed.companion.entities.SetEntity;
-import com.focuzed.companion.mappers.ExerciseSetMapper;
-import com.focuzed.companion.repositories.ExerciseSetRepository;
+import com.focuzed.companion.mappers.SetMapper;
+import com.focuzed.companion.repositories.SetRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,25 +16,25 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 public class SetService {
-    private final ExerciseSetRepository repository;
-    private final ExerciseSetMapper exerciseSetMapper;
+    private final SetRepository repository;
+    private final SetMapper setMapper;
 
-    public UUID save(ExerciseSetDto exerciseSetDto) {
-        log.info("Saving exercise set: {}", exerciseSetDto);
+    public UUID save(SetDto setDto) {
+        log.info("Saving exercise set: {}", setDto);
 
-        SetEntity setEntity = exerciseSetMapper.toEntity(exerciseSetDto);
+        SetEntity setEntity = setMapper.toEntity(setDto);
 
         repository.save(setEntity);
         return setEntity.getId();
     }
 
-    public ExerciseSetDto getExerciseSetById(String id) {
+    public SetDto getExerciseSetById(String id) {
         var exerciseSetId = UUID.fromString(id);
 
         var exerciseSet = repository.findById(exerciseSetId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Exercise set not found"));
 
-        return exerciseSetMapper.toDto(exerciseSet);
+        return setMapper.toDto(exerciseSet);
     }
 
     public void delete(String id) {
@@ -47,7 +47,7 @@ public class SetService {
         repository.delete(exerciseSet);
     }
 
-    public ExerciseSetDto update(String id, ExerciseSetDto dto) {
+    public SetDto update(String id, SetDto dto) {
         var exerciseSetId = UUID.fromString(id);
 
         var exerciseSet = repository.findById(exerciseSetId)
@@ -59,6 +59,6 @@ public class SetService {
 
         repository.save(exerciseSet);
 
-        return exerciseSetMapper.toDto(exerciseSet);
+        return setMapper.toDto(exerciseSet);
     }
 }
