@@ -44,8 +44,8 @@ public class SessionService {
         sessionEntity.setIsPlan(true);
 
         sessionRepository.save(sessionEntity);
-
-        userEntity.setTrainingPlan(sessionEntity);
+// TODO: Add new training plan entity to user
+//        userEntity.setTrainingPlan(sessionEntity);
 
         userRepository.save(userEntity);
         return sessionEntity.getId();

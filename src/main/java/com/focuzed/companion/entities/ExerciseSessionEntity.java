@@ -31,6 +31,10 @@ public class ExerciseSessionEntity {
     @JoinColumn(name = "session_id")
     private SessionEntity session;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
     private Boolean completed;
 
     @OneToMany(mappedBy = "exerciseSession", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -13,6 +13,7 @@ create table sets (
 create table exercise_session (
                                   id uuid not null primary key,
                                   exercise_id uuid not null references exercise(id),
+                                  user_id uuid not null references users(id),
                                   session_id uuid not null references sessions(id),
                                   completed boolean
 );
@@ -20,7 +21,7 @@ create table exercise_session (
 create table sessions (
                           id uuid not null primary key,
                           user_id uuid not null references users(id),
-                          reference_session_id uuid references sessions(id),
+                          reference_id uuid references sessions(id),
                           is_plan boolean,
                           date timestamp,
                           completed boolean
@@ -42,6 +43,19 @@ create table users (
                        role varchar(50) not null,
                        created_at timestamp
 );
+
+create table training_plan_day (
+    id uuid not null primary key,
+    training_plan_id uuid not null references training_plan(id),
+    day int2,
+    training_plan_session_id uuid references sessions(id)
+);
+
+create table training_plan (
+    id uuid not null primary key,
+    user_id uuid not null references users(id),
+    created_at timestamp
+)
 
 
 

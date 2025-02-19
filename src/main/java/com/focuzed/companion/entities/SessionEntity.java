@@ -26,7 +26,7 @@ public class SessionEntity {
     private UserEntity userEntity;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reference_session_id")
+    @JoinColumn(name = "reference_id")
     private SessionEntity referenceSession;
 
     private Boolean isPlan;
@@ -41,7 +41,7 @@ public class SessionEntity {
     private List<ExerciseSessionEntity> exercises = new ArrayList<>();
 
     public void addExercise(ExerciseSessionEntity exercise) {
-        exercise.setSession(this); // Garantir que a referência está correta
+        exercise.setSession(this);
         this.exercises.add(exercise);
     }
 }

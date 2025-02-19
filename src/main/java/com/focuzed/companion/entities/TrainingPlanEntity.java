@@ -10,25 +10,18 @@ import java.util.UUID;
 
 @Entity
 @Data
-@Table(name = "users")
+@Table(name = "training_plan")
 @EntityListeners(AuditingEntityListener.class)
-public class UserEntity {
+public class TrainingPlanEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(unique = true, nullable = false)
     private UUID id;
 
-    @Column
-    private String email;
-
-    @Column
-    private String name;
-
-    @Column
-    private String password;
-
-    @Column
-    private String role;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
 
     @CreatedDate
     private LocalDateTime createdAt;
