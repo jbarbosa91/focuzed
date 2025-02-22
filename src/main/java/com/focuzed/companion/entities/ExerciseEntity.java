@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Data
-@Table(name = "Exercise")
+@Table(name = "Exercises")
 @EntityListeners(AuditingEntityListener.class)
 public class ExerciseEntity {
 
@@ -20,13 +20,15 @@ public class ExerciseEntity {
     @Column(unique = true, nullable = false)
     private UUID id;
 
-    @Column
+    @Column(length = 100, nullable = false)
     private String title;
 
-    @Column
     private String description;
 
-    @Column
+    @Column(length = 50)
+    private String muscleGroup;
+
+    @Column(length = 100)
     private String url;
 
     @CreatedDate

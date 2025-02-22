@@ -1,47 +1,41 @@
 package com.focuzed.companion.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Data
-@Table(name = "Exercise_Sets")
+@Table(name = "Template_Exercises")
 @EntityListeners(AuditingEntityListener.class)
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class SetEntity {
+public class TemplateExerciseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(unique = true, nullable = false)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "session_exercise_id", nullable = false)
-    private ExerciseSessionEntity exerciseSession;
+    @JoinColumn(name = "template_id", nullable = false)
+    private PlanDayTemplateEntity planDayTemplate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "exercise_id", nullable = false)
+    private ExerciseEntity exerciseEntity;
 
     @Column(nullable = false)
-    private Integer setNumber;
+    private Integer exerciseOrder;
 
-    // TODO: Add constraint in DTO CHECK (weight >= 0)
-    @Column(precision = 6, scale = 2)
-    private BigDecimal weight;
-
-    // TODO: Add constraint in DTO CHECK (repetitions >= 0)
+    // TODO: Contraint in DTO CHECK (planned_sets > 0)
     @Column(nullable = false)
-    private Integer repetitions;
+    private Integer plannedSets;
 
-    private Boolean isCompleted;
+    private String notes;
 
     @CreatedDate
     private LocalDateTime createdAt;

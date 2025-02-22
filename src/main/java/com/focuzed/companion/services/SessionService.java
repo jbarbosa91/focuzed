@@ -40,8 +40,6 @@ public class SessionService {
         }
 
         SessionEntity sessionEntity = convertSessionDtoToEntity(sessionDto);
-        sessionEntity.setUserEntity(userEntity);
-        sessionEntity.setIsPlan(true);
 
         sessionRepository.save(sessionEntity);
 // TODO: Add new training plan entity to user
@@ -63,7 +61,7 @@ public class SessionService {
             for (SetDto setDto : exerciseSessionDto.sets()) {
                 var set = SetEntity.builder()
                         .setNumber(setDto.setNumber())
-                        .reps(setDto.reps())
+                        .repetitions(setDto.repetitions())
                         .build();
 
                 exerciseSession.addSet(set);

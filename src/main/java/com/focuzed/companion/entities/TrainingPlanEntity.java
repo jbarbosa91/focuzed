@@ -3,14 +3,16 @@ package com.focuzed.companion.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Data
-@Table(name = "training_plan")
+@Table(name = "Training_Plans")
 @EntityListeners(AuditingEntityListener.class)
 public class TrainingPlanEntity {
 
@@ -20,10 +22,24 @@ public class TrainingPlanEntity {
     private UUID id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity userEntity;
+
+    @Column(length = 100, nullable = false)
+    private  String name;
+
+    private LocalDate endDate;
+
+    // TODO: Add constraint in DTO CHECK (day BETWEEN 1 AND 7)
+    @Column(nullable = false)
+    private Integer daysPerWeek;
+
+    private Boolean isActive;
 
     @CreatedDate
     private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 
 }

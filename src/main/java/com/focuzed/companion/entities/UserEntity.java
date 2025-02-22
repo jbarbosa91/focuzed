@@ -10,27 +10,27 @@ import java.util.UUID;
 
 @Entity
 @Data
-@Table(name = "users")
+@Table(name = "Users")
 @EntityListeners(AuditingEntityListener.class)
 public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(unique = true, nullable = false)
     private UUID id;
 
-    @Column
+    @Column(length = 100, unique = true, nullable = false)
     private String email;
 
-    @Column
+    @Column(length = 100, unique = true, nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private String password;
 
-    @Column
+    @Column(length = 100, nullable = false)
     private String role;
 
     @CreatedDate
     private LocalDateTime createdAt;
-
 }

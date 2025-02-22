@@ -3,6 +3,7 @@ package com.focuzed.companion.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ import java.util.UUID;
 
 @Entity
 @Data
-@Table(name = "sessions")
+@Table(name = "Training_Sessions")
 @EntityListeners(AuditingEntityListener.class)
 public class SessionEntity {
 
@@ -21,20 +22,27 @@ public class SessionEntity {
     @Column(unique = true, nullable = false)
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
+    // TODO: Add new entity from table Training_Plans
+    @Column(nullable = false)
+    private UUID planId;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reference_id")
-    private SessionEntity referenceSession;
+    // TODO: Add new entity from table Plan_Day_Templates
+    private UUID templateId;
 
-    private Boolean isPlan;
+    // TODO: Add constraint in DTO CHECK (day BETWEEN 1 AND 7)
+    @Column(nullable = false)
+    private Integer day;
+
+    // TODO: Create Enum with ('Pending', 'In Progress', 'Completed')
+    @Column(length = 50, nullable = false)
+    private String status;
 
     @CreatedDate
-    private LocalDateTime date;
+    private LocalDateTime createdAt;
 
-    @Column(name = "completed")
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
     private Boolean isCompleted;
 
     @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)

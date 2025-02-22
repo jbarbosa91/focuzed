@@ -57,5 +57,96 @@ create table training_plan (
     created_at timestamp
 )
 
+----- UPDATED -------------------------
 
+CREATE TABLE Users (
+                       id UUID NOT NULL PRIMARY KEY,
+                       email VARCHAR(100) NOT NULL UNIQUE,
+                       name VARCHAR(100) NOT NULL UNIQUE,
+                       password varchar(255) not null,
+                       role varchar(50) not null,
+                       created_at TIMESTAMP
+);
 
+CREATE TABLE Training_Plans (
+                                id UUID NOT NULL PRIMARY KEY ,
+                                user_id UUID NOT NULL REFERENCES Users(id),
+                                name VARCHAR(100) NOT NULL,
+                                end_date DATE,
+                                days_per_week INT NOT NULL CHECK (days_per_week BETWEEN 1 AND 7),
+                                is_active BOOLEAN DEFAULT TRUE,
+                                created_at TIMESTAMP,
+                                updated_at TIMESTAMP
+);
+
+CREATE TABLE Plan_Day_Templates (
+                                    id UUID NOT NULL PRIMARY KEY,
+                                    plan_id UUID NOT NULL REFERENCES Training_Plans(id),
+                                    day INT NOT NULL CHECK (day BETWEEN 1 AND 7),
+                                    description VARCHAR(255),
+                                    created_at TIMESTAMP,
+                                    updated_at TIMESTAMP,
+                                    CONSTRAINT uk_plan_day UNIQUE (plan_id, day)
+);
+
+CREATE TABLE Exercises (
+                           id UUID NOT NULL PRIMARY KEY,
+                           title VARCHAR(100) NOT NULL,
+                           description VARCHAR(255),
+                           muscle_group VARCHAR(50),
+                           url VARCHAR(100),
+                           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Template_Exercises (
+                                    id UUID NOT NULL PRIMARY KEY,
+                                    template_id UUID NOT NULL REFERENCES Plan_Day_Templates(id),
+                                    exercise_id UUID NOT NULL REFERENCES Exercises(id),
+                                    exercise_order INT NOT NULL,
+                                    planned_sets INT NOT NULL CHECK (planned_sets > 0), -- Number of sets to predefine
+                                    notes VARCHAR(255),
+                                    created_at TIMESTAMP,
+                                    updated_at TIMESTAMP
+);
+
+CREATE TABLE Training_Sessions (
+                                   id UUID NOT NULL PRIMARY KEY,
+                                   plan_id UUID NOT NULL REFERENCES Training_Plans(id),
+                                   template_id UUID REFERENCES Plan_Day_Templates(id), -- Reference to the template used
+                                   day INT NOT NULL CHECK (day BETWEEN 1 AND 7),
+                                   status varchar(50) not null,
+                                   created_at TIMESTAMP,
+                                   updated_at TIMESTAMP,
+                                   is_completed boolean,
+                                   constraint chk_status check (status in ('Pending', 'In Progress', 'Completed') )
+);
+
+CREATE TABLE Session_Exercises (
+                                   id UUID NOT NULL PRIMARY KEY,
+                                   session_id UUID NOT NULL REFERENCES Training_Sessions(id),
+                                   exercise_id UUID NOT NULL REFERENCES Exercises(id),
+                                   exercise_order INT NOT NULL,
+                                   notes VARCHAR(255),
+                                   created_at TIMESTAMP,
+                                   updated_at TIMESTAMP,
+                                   is_completed boolean
+);
+
+CREATE TABLE Exercise_Sets (
+                               id UUID NOT NULL PRIMARY KEY,
+                               session_exercise_id UUID NOT NULL REFERENCES Session_Exercises(id),
+                               set_number INT NOT NULL,
+                               repetitions INT NOT NULL CHECK (repetitions >= 0),
+                               weight DECIMAL(6,2) CHECK (weight >= 0),
+                               is_completed BOOLEAN DEFAULT FALSE,
+                               created_at TIMESTAMP,
+                               updated_at TIMESTAMP
+);
+
+CREATE INDEX idx_session_exercise_set ON Exercise_Sets (session_exercise_id, set_number);
+CREATE INDEX idx_session_exercise ON Session_Exercises (session_id, exercise_order);
+CREATE INDEX idx_plan_day_session ON Training_Sessions (plan_id, day);
+CREATE INDEX idx_title ON Exercises (title);
+CREATE INDEX idx_user_plan ON Training_Plans (user_id, is_active);
+CREATE INDEX idx_plan_day_template ON Plan_Day_Templates (plan_id, day);
+CREATE INDEX idx_template_exercise ON Template_Exercises (template_id, exercise_order);

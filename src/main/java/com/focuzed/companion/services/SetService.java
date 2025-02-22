@@ -54,8 +54,7 @@ public class SetService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Exercise set not found"));
 
         exerciseSet.setWeight(dto.weight());
-        exerciseSet.setReps(dto.reps());
-        exerciseSet.setDifficulty(dto.difficulty());
+        exerciseSet.setRepetitions(dto.repetitions());
 
         repository.save(exerciseSet);
 
