@@ -118,7 +118,7 @@ CREATE TABLE Training_Sessions (
                                    created_at TIMESTAMP,
                                    updated_at TIMESTAMP,
                                    is_completed boolean,
-                                   constraint chk_status check (status in ('Pending', 'In Progress', 'Completed') )
+                                   constraint chk_status check (status in ('PENDING', 'INPROGRESS', 'COMPLETED') )
 );
 
 CREATE TABLE Session_Exercises (

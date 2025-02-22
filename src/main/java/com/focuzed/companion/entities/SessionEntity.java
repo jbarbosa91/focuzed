@@ -22,20 +22,20 @@ public class SessionEntity {
     @Column(unique = true, nullable = false)
     private UUID id;
 
-    // TODO: Add new entity from table Training_Plans
-    @Column(nullable = false)
-    private UUID planId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "plan_id", nullable = false)
+    private TrainingPlanEntity trainingPlan;
 
-    // TODO: Add new entity from table Plan_Day_Templates
-    private UUID templateId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "template_id", nullable = false)
+    private PlanDayTemplateEntity planDayTemplate;
 
-    // TODO: Add constraint in DTO CHECK (day BETWEEN 1 AND 7)
     @Column(nullable = false)
     private Integer day;
 
-    // TODO: Create Enum with ('Pending', 'In Progress', 'Completed')
+    @Enumerated(EnumType.STRING)
     @Column(length = 50, nullable = false)
-    private String status;
+    private Status status;
 
     @CreatedDate
     private LocalDateTime createdAt;

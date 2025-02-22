@@ -33,11 +33,9 @@ public class SetEntity {
     @Column(nullable = false)
     private Integer setNumber;
 
-    // TODO: Add constraint in DTO CHECK (weight >= 0)
     @Column(precision = 6, scale = 2)
     private BigDecimal weight;
 
-    // TODO: Add constraint in DTO CHECK (repetitions >= 0)
     @Column(nullable = false)
     private Integer repetitions;
 
