@@ -42,8 +42,8 @@ public class SessionService {
         SessionEntity sessionEntity = convertSessionDtoToEntity(sessionDto);
 
         sessionRepository.save(sessionEntity);
-// TODO: Add new training plan entity to user
-//        userEntity.setTrainingPlan(sessionEntity);
+
+ // TODO: Add new training plan entity to user
 
         userRepository.save(userEntity);
         return sessionEntity.getId();
