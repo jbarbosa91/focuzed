@@ -6,10 +6,8 @@ import com.focuzed.companion.dto.SetDto;
 import com.focuzed.companion.entities.ExerciseSessionEntity;
 import com.focuzed.companion.entities.SessionEntity;
 import com.focuzed.companion.entities.SetEntity;
-import com.focuzed.companion.entities.UserEntity;
 import com.focuzed.companion.repositories.ExerciseRepository;
 import com.focuzed.companion.repositories.SessionRepository;
-import com.focuzed.companion.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,27 +23,26 @@ import java.util.UUID;
 public class SessionService {
 
     private final SessionRepository sessionRepository;
-    private final UserService userService;
-    private final UserRepository userRepository;
+    private final TrainingPlanService trainingPlanService;
     private final ExerciseRepository exerciseRepository;
 
+    // TODO: adapt to add new session instead of adding training plan
     @Transactional
-    public UUID createTrainingPlan(String userIdString, SessionDto sessionDto) {
-        log.info("Saving training plan: {}", sessionDto);
+    public UUID createNewSession(String trainingPlanId, SessionDto sessionDto) {
+        log.info("Creating new session: {}", sessionDto);
 
-        UserEntity userEntity = userService.getUserById(userIdString);
+        var trainingPlan = trainingPlanService.findTrainingPlanById(UUID.fromString(trainingPlanId));
 
-        if (userEntity == null) {
+        if (trainingPlan == null || trainingPlan.getIsActive().equals(Boolean.FALSE)) {
             return null;
         }
 
         SessionEntity sessionEntity = convertSessionDtoToEntity(sessionDto);
 
+        sessionEntity.setTrainingPlan(trainingPlan);
+
         sessionRepository.save(sessionEntity);
 
- // TODO: Add new training plan entity to user
-
-        userRepository.save(userEntity);
         return sessionEntity.getId();
     }
 

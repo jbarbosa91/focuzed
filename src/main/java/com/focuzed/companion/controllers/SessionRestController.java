@@ -19,9 +19,9 @@ public class SessionRestController implements GenericController {
     private final SessionService service;
 
     @PostMapping
-    public ResponseEntity<Void> createTrainingPlan(@RequestParam(value = "userId") String userId, @RequestBody @Valid SessionDto dto) {
-        var trainingPlanId = service.createTrainingPlan(userId, dto);
-        URI location = generateHeaderLocation(trainingPlanId);
+    public ResponseEntity<Void> createNewSession(@RequestParam(value = "trainingPlanId") String trainingPlanId, @RequestBody @Valid SessionDto dto) {
+        var sessionId = service.createNewSession(trainingPlanId, dto);
+        URI location = generateHeaderLocation(sessionId);
         return ResponseEntity.created(location).build();
     }
 

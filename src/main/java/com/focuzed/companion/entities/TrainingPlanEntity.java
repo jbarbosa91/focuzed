@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,9 +27,6 @@ public class TrainingPlanEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity userEntity;
 
-    @Column(length = 100, nullable = false)
-    private  String name;
-
     private LocalDate endDate;
 
     // TODO: Add constraint in DTO CHECK (day BETWEEN 1 AND 7)
@@ -37,8 +35,8 @@ public class TrainingPlanEntity {
 
     private Boolean isActive;
 
-    @OneToMany(mappedBy = "trainingPlan")
-    private List<PlanDayTemplateEntity> planDayTemplateEntities;
+    @OneToMany(mappedBy = "trainingPlan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PlanDayTemplateEntity> planDayTemplateEntities = new ArrayList<>();
 
     @CreatedDate
     private LocalDateTime createdAt;

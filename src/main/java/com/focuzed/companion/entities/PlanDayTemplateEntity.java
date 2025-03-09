@@ -32,7 +32,7 @@ public class PlanDayTemplateEntity {
 
     private String description;
 
-    @OneToMany(mappedBy = "planDayTemplate")
+    @OneToMany(mappedBy = "planDayTemplate", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TemplateExerciseEntity> templateExerciseEntities;
 
     @CreatedDate
