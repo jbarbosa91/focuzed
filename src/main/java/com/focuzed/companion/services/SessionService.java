@@ -54,6 +54,7 @@ public class SessionService {
 
             var exerciseSession = new ExerciseSessionEntity();
             exerciseSession.setExerciseEntity(exercise);
+            exerciseSession.setExerciseOrder(exerciseSessionDto.exerciseOrder());
 
             for (SetDto setDto : exerciseSessionDto.sets()) {
                 var set = SetEntity.builder()
@@ -63,8 +64,9 @@ public class SessionService {
 
                 exerciseSession.addSet(set);
             }
-
+            sessionEntity.setStatus(sessionDto.status());
             sessionEntity.addExercise(exerciseSession);
+            sessionEntity.setDay(sessionDto.day());
         }
 
         return sessionEntity;
