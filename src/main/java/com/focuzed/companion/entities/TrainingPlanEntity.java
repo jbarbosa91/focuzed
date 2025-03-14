@@ -2,6 +2,7 @@ package com.focuzed.companion.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -36,6 +37,7 @@ public class TrainingPlanEntity {
     private Boolean isActive;
 
     @OneToMany(mappedBy = "trainingPlan", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<PlanDayTemplateEntity> planDayTemplateEntities = new ArrayList<>();
 
     @CreatedDate
