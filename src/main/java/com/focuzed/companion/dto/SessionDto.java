@@ -15,5 +15,6 @@ public record SessionDto(UUID id,
                          @Max(value = 7, message = "maximum value is 7")
                          Integer day,
                          Status status,
+                         @NotNull
                          UUID trainingPlanId) {
 }
