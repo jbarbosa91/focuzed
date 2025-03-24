@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -23,6 +21,17 @@ public class TrainingPlanService {
     private final UserService userService;
     private final ExerciseRepository exerciseRepository;
     private final TrainingPlanRepository trainingPlanRepository;
+
+    public UUID getTrainingPlanIdByUserId(String userId) {
+        var trainingPlans = trainingPlanRepository.findTrainingPlanEntitiesByUserEntityId(UUID.fromString(userId));
+
+        Optional<TrainingPlanEntity> activeTrainingPlan = trainingPlans.stream().filter(t -> t.getIsActive().equals(Boolean.TRUE)).findFirst();
+
+        if (activeTrainingPlan.isPresent()) {
+            return activeTrainingPlan.get().getId();
+        }
+        return null;
+    }
 
     @Transactional
     public UUID createTrainingPlan(String userIdString, TrainingPlanDto trainingPlanDto) {
@@ -89,5 +98,23 @@ public class TrainingPlanService {
 
         return trainingPlan;
     }
+
+//    private TrainingPlanDto convertTrainingPlanEntityToDto(TrainingPlanEntity trainingPlanEntity) {
+//
+//        var planDayTemplateDtos = new LinkedList<PlanDayTemplateDto>();
+//        for (PlanDayTemplateEntity planDayTemplateEntity : trainingPlanEntity.getPlanDayTemplateEntities()) {
+//            planDayTemplateDtos.add(convertPlanDayTemplateEntityToDto(planDayTemplateEntity));
+//        }
+//
+//        return new TrainingPlanDto(
+//                planDayTemplateDtos,
+//                trainingPlanEntity.getEndDate(),
+//                trainingPlanEntity.getDaysPerWeek(),
+//                trainingPlanEntity.getIsActive());
+//    };
+//
+//    private PlanDayTemplateDto convertPlanDayTemplateEntityToDto(PlanDayTemplateEntity planDayTemplateEntity) {
+//        return new PlanDayTemplateDto()
+//    }
 
 }
